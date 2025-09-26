@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Graphs;
 
 public class ResponseNode : BaseNode
 {
-    Port inPort;
-    Port outPort;
+    private Port inPort;
+    private Port outPort;
 
     public ResponseNode(GraphView graph) : base(graph)
     {
@@ -14,16 +16,38 @@ public class ResponseNode : BaseNode
         inPort.portName = "In";
         inPort.portColor = Color.cyan;
 
-        outPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(AnswerNode));
+        outPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(AnswerNode));
         outPort.portName = "Out";
         outPort.portColor = Color.magenta;
 
         inputContainer.Add(inPort);
         outputContainer.Add(outPort);
+
+        
+
+        RefreshExpandedState();
+        RefreshPorts();
     }
 
-    public override void GetValues()
+
+
+    public override NodeValues GetValues()
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override void Add()
+    {
+        Debug.Log("Add-response");
+    }
+
+    protected override void Remove()
+    {
+        Debug.Log("Remove-response");
+    }
+
+    protected override void RemoveAll()
+    {
+        Debug.Log("RemoveAll-response");
     }
 }

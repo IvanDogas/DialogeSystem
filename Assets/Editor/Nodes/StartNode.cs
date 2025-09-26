@@ -6,6 +6,7 @@ public class StartNode : BaseNode
 {
     public TextField textField;
     public Port outPort;
+    
 
     public StartNode(GraphView graph) : base(graph)
     {
@@ -28,8 +29,23 @@ public class StartNode : BaseNode
         RefreshPorts();
     }
 
-    public override void GetValues()
+    public override NodeValues GetValues()
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override void Add()
+    {
+        Debug.Log("Add-start");
+    }
+
+    protected override void Remove()
+    {
+        Debug.Log("Remvoe-start");
+    }
+
+    protected override void RemoveAll()
+    {
+        Debug.Log("RemoveAll-start");
     }
 }

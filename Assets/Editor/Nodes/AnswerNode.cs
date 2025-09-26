@@ -9,38 +9,15 @@ public class AnswerNode : BaseNode
     public AnswerNodeData data;
     public List<TextFieldWithOutPort> list = new();
 
-    public Port outPort;
-    public TextField txtField;
-
     public AnswerNode(AnswerNodeData nodeData, GraphView graph) : base(graph)
     {
         title = "Answers";
         data = nodeData;
 
-        inPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(AnswerNode));
+        inPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(AnswerNode));
         inPort.portName = "In";
         inPort.portColor = Color.magenta;
         inputContainer.Add(inPort);
-
-        outPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(AnswerNode));
-        outPort.portName = "Out";
-        outPort.portColor = Color.cyan;
-
-        txtField = new();
-        txtField.value = "Text";
-        txtField.style.minWidth = 60;
-
-        Button add = new() { text = "Add" };
-        Button remove = new() { text = "Remove" };
-        Button removeAll = new() { text = "Remove all" };
-
-        add.clicked += AddElement;
-        remove.clicked += RemoveElement;
-        removeAll.clicked += RemoveAllElements;
-
-        mainContainer.Add(add);
-        mainContainer.Add(remove);
-        mainContainer.Add(removeAll);
 
         RefreshExpandedState();
         RefreshPorts();
@@ -78,7 +55,12 @@ public class AnswerNode : BaseNode
         return op;
     }
 
-    private void AddElement()
+    public override NodeValues GetValues()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void Add()
     {
         TextField tf = CreateListTextField();
         Port op = CreateListOutPort();
@@ -90,7 +72,7 @@ public class AnswerNode : BaseNode
         Debug.Log("Added Element");
     }
 
-    private void RemoveElement()
+    protected override void Remove()
     {
         if (list.Count > 0)
         {
@@ -105,20 +87,17 @@ public class AnswerNode : BaseNode
         }
     }
 
-    private void RemoveAllElements()
+    protected override void RemoveAll()
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
+            graph.DeleteElements(list[i].outPort.connections);
+
             mainContainer.Remove(list[i].elem);
             list.RemoveAt(i);
         }
 
         Debug.Log("Removed all Elements");
-    }
-
-    public override void GetValues()
-    {
-        throw new System.NotImplementedException();
     }
 }
 
