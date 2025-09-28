@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 
 public class DialogeGraphView : GraphView
 {
@@ -10,12 +11,22 @@ public class DialogeGraphView : GraphView
         InsertGrid();
     }
 
+    public ContentZoomer zoomer;
+    public ContentDragger cDragger;
+    public SelectionDragger dragger;
+    public RectangleSelector selector;
+
     private void AddManipulators()
     {
-        this.AddManipulator(new ContentZoomer());
-        this.AddManipulator(new ContentDragger());
-        this.AddManipulator(new SelectionDragger());
-        this.AddManipulator(new RectangleSelector());
+        zoomer = new();
+        cDragger = new();
+        dragger = new();
+        selector = new();
+
+        this.AddManipulator(zoomer);
+        this.AddManipulator(cDragger);
+        this.AddManipulator(dragger);
+        this.AddManipulator(selector);
     }
 
     private void InsertGrid()

@@ -6,13 +6,11 @@ public class AnswerNode : BaseNode
 {
     public Port inPort;
 
-    public AnswerNodeData data;
     public List<TextFieldWithOutPort> list = new();
 
-    public AnswerNode(AnswerNodeData nodeData, GraphView graph) : base(graph)
+    public AnswerNode(GraphView graph) : base(graph)
     {
         title = "Answers";
-        data = nodeData;
 
         inPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(AnswerNode));
         inPort.portName = "In";
@@ -57,7 +55,10 @@ public class AnswerNode : BaseNode
 
     public override NodeValues GetValues()
     {
-        throw new System.NotImplementedException();
+        NodeValues values = new();
+        values.type = NodeType.Answer;
+
+        return values;
     }
 
     protected override void Add()
@@ -68,8 +69,6 @@ public class AnswerNode : BaseNode
 
         list.Add(new TextFieldWithOutPort(elem, tf, op));
         mainContainer.Add(elem);
-
-        Debug.Log("Added Element");
     }
 
     protected override void Remove()
@@ -82,8 +81,6 @@ public class AnswerNode : BaseNode
 
             mainContainer.Remove(t.elem);
             list.RemoveAt(list.Count - 1);
-
-            Debug.Log("Removed Element");
         }
     }
 
@@ -96,14 +93,7 @@ public class AnswerNode : BaseNode
             mainContainer.Remove(list[i].elem);
             list.RemoveAt(i);
         }
-
-        Debug.Log("Removed all Elements");
     }
-}
-
-public class AnswerNodeData
-{
-    public List<TextFieldWithOutPort> values = new();
 }
 
 public class TextFieldWithOutPort

@@ -23,8 +23,6 @@ public class ResponseNode : BaseNode
         inputContainer.Add(inPort);
         outputContainer.Add(outPort);
 
-        
-
         RefreshExpandedState();
         RefreshPorts();
     }
@@ -33,7 +31,10 @@ public class ResponseNode : BaseNode
 
     public override NodeValues GetValues()
     {
-        throw new System.NotImplementedException();
+        NodeValues values = new();
+        values.type = NodeType.Response;
+
+        return values;
     }
 
     protected override void Add()

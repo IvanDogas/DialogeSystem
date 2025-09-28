@@ -21,7 +21,7 @@ public class DialogeEditor : EditorWindow
             name = "Dialoge"
         };
         graph.StretchToParentSize();
-        rootVisualElement.Add(graph);
+        rootVisualElement.Add(graph);       
 
         Toolbar toolbar = new();
 
@@ -42,29 +42,51 @@ public class DialogeEditor : EditorWindow
         toolbar.Add(createAnswerNode);
         toolbar.Add(createResponseNodde);
 
+        Label label = new();
+        label.text = "Upate DialogeInfo:";
+        label.style.marginTop = 2;
+
+        ObjectField updateDialogeInfo = new();
+        updateDialogeInfo.objectType = typeof(DialogeInfo);
+        
+        toolbar.Add(label); 
+        toolbar.Add(updateDialogeInfo);
+
         rootVisualElement.Add(toolbar);
 
         startNode = new(graph);
         startNode.SetPosition(new Rect(0, 200, 150, 200));
         graph.AddElement(startNode);
+    }
 
-        AnswerNode a = new(new(),graph);
-        a.SetPosition(new Rect(200, 200, 150, 200));
-        graph.AddElement(a);
+    private void OnDestroy()
+    {
+        Debug.Log("Closed");
+    }
 
-        ResponseNode r = new(graph);
-        r.SetPosition(new Rect(400, 200, 150, 200));
-        graph.AddElement(r);
+    private void OnSelectionChange()
+    {
+        Debug.Log("Changed");
     }
 
     private void CreateAsset()
     {
-        Debug.Log(startNode.textField.value);
+        Debug.Log(graph.selection.Count);
+
+        for (int i = 0; i < graph.selection.Count; i++)
+        {
+            if (graph.selection[i] is BaseNode)
+            {
+                BaseNode node = (BaseNode)graph.selection[i];
+                Debug.Log(node.GetValues().type);
+            }
+
+        }
     }
 
     private void CreateANode()
     {
-        AnswerNode a = new(new(),graph);
+        AnswerNode a = new(graph);
         a.SetPosition(new Rect(0, 0, 150, 200));
         graph.AddElement(a);
     }

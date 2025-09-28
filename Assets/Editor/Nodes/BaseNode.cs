@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.Compilation;
 using UnityEngine.UIElements;
 
 public abstract class BaseNode : Node
@@ -32,16 +31,3 @@ public abstract class BaseNode : Node
     protected abstract void RemoveAll();
 }
 
-public class NodeValues
-{
-    NodeType type;
-    public List<Sprite> icon = new();
-    public List<string> text = new();
-}
-
-public enum NodeType
-{
-    Start,
-    Response,
-    Answer
-}
