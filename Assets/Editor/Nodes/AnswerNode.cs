@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 public class AnswerNode : BaseNode
 {
     public Port inPort;
+    public ObjectField iconField;
 
     public List<TextFieldWithOutPort> list = new();
 
@@ -16,6 +18,11 @@ public class AnswerNode : BaseNode
         inPort.portName = "In";
         inPort.portColor = Color.magenta;
         inputContainer.Add(inPort);
+
+        iconField = new();
+        iconField.objectType = typeof(Sprite);
+
+        mainContainer.Add(iconField);
 
         RefreshExpandedState();
         RefreshPorts();

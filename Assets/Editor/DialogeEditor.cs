@@ -9,6 +9,7 @@ public class DialogeEditor : EditorWindow
     public static void OpenWindow()
     {
         GetWindow<DialogeEditor>();
+        GetWindow<TEST>();
     }
 
     DialogeGraphView graph;
