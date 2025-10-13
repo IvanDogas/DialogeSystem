@@ -132,7 +132,7 @@ public class DialogeEditor : EditorWindow
                                 BaseNode nextNode = (BaseNode)ports[0].node;
                                 value.nextNodeCode.Add(nextNode.code);
 
-                                nextQ.Add(nextNode);
+                                if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
                             }
                             break;
                         
