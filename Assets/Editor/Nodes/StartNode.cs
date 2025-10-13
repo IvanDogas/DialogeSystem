@@ -3,7 +3,6 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
 using UnityEditor.UIElements;
-using Codice.CM.Client.Differences;
 
 public class StartNode : BaseNode
 {
@@ -27,14 +26,29 @@ public class StartNode : BaseNode
         RefreshExpandedState();
         RefreshPorts();
     }
-
     public override NodeValues GetValues()
     {
         NodeValues values = new NodeValues();
         
         values.type = NodeType.Start;
 
+        values.code = code;
+
         return values;
+    }
+
+    public override List<Port> GetPorts()
+    {
+        List<Port> ports = new();
+
+        foreach (Edge item in outPort.connections)
+        {
+            if(item.input != null)
+            {
+                ports.Add(item.input);
+            }
+        }
+        return ports;
     }
 
     protected override void Add()

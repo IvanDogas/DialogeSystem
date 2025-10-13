@@ -6,8 +6,11 @@ using UnityEngine.UIElements;
 public abstract class BaseNode : Node
 {
     protected GraphView graph;
+    public int code;
 
     public abstract NodeValues GetValues();
+
+    public abstract List<Port> GetPorts();
 
     public BaseNode(GraphView graph)
     {

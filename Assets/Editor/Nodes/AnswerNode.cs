@@ -63,7 +63,10 @@ public class AnswerNode : BaseNode
     public override NodeValues GetValues()
     {
         NodeValues values = new();
+
         values.type = NodeType.Answer;
+
+        values.code = code;
 
         return values;
     }
@@ -100,6 +103,24 @@ public class AnswerNode : BaseNode
             mainContainer.Remove(list[i].elem);
             list.RemoveAt(i);
         }
+    }
+
+    public override List<Port> GetPorts()
+    {
+        List<Port> ports = new();
+
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            foreach (Edge item in list[i].outPort.connections)
+            {
+                if(item.input != null)
+                {
+                    ports.Add(item.input);
+                }
+            }
+        }
+
+        return ports;
     }
 }
 

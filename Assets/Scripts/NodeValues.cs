@@ -1,6 +1,6 @@
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 using System.Collections.Generic;
+using UnityEditor;
 
 [System.Serializable]
 public class NodeValues
@@ -12,7 +12,8 @@ public class NodeValues
 
     public Sprite icon;
 
-    public NodeValues nextNodeValue;
+    public int code;
+    public List<int> nextNodeCode = new();
 }
 
 public enum NodeType

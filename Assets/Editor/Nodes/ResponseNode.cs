@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.Graphs;
 
 public class ResponseNode : BaseNode
 {
@@ -27,12 +26,28 @@ public class ResponseNode : BaseNode
         RefreshPorts();
     }
 
+    public override List<Port> GetPorts()
+    {
+        List<Port> ports = new();
 
+        foreach (Edge item in outPort.connections)
+        {
+            if (item.input != null)
+            {
+                ports.Add(item.input);
+            }
+        }
+
+        return ports;
+    }
 
     public override NodeValues GetValues()
     {
         NodeValues values = new();
+
         values.type = NodeType.Response;
+
+        values.code = code;
 
         return values;
     }
