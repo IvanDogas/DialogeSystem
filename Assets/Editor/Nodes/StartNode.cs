@@ -32,6 +32,11 @@ public class StartNode : BaseNode
         
         values.type = NodeType.Start;
 
+        for (int i = 0; i < fields.Count; i++)
+        {
+            values.texts.Add(fields[i].tf.value);
+        }
+
         values.code = code;
 
         return values;

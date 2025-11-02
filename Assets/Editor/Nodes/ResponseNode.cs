@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 public class ResponseNode : BaseNode
 {
     private Port inPort;
     private Port outPort;
+
+    public List<TextFieldWithObjectField> fields = new();
 
     public ResponseNode(GraphView graph) : base(graph)
     {
@@ -47,6 +51,11 @@ public class ResponseNode : BaseNode
 
         values.type = NodeType.Response;
 
+        for (int i = 0; i < fields.Count; i++)
+        {
+            values.texts.Add(fields[i].tf.value);
+        }
+
         values.code = code;
 
         return values;
@@ -54,16 +63,65 @@ public class ResponseNode : BaseNode
 
     protected override void Add()
     {
-        Debug.Log("Add-response");
+        TextField tf = CreateTextField();
+        ObjectField of = CreateObjectField();
+        VisualElement elem = CreateVisualElement(of, tf);
+
+        fields.Add(new(elem, tf, of));
+        mainContainer.Add(elem);
     }
 
     protected override void Remove()
     {
-        Debug.Log("Remove-response");
+        if (fields.Count > 0)
+        {
+            TextFieldWithObjectField field = fields[fields.Count - 1];
+
+            mainContainer.Remove(field.elem);
+            fields.Remove(field);
+        }
     }
 
     protected override void RemoveAll()
     {
-        Debug.Log("RemoveAll-response");
+        for (int i = fields.Count - 1; i >= 0; i--)
+        {
+            TextFieldWithObjectField field = fields[i];
+
+            mainContainer.Remove(field.elem);
+            fields.Remove(field);
+        }
+    }
+
+    private TextField CreateTextField()
+    {
+        TextField tf = new()
+        {
+            value = "Text"
+        };
+        tf.style.minWidth = 120;
+
+        return tf;
+    }
+
+    private ObjectField CreateObjectField()
+    {
+        ObjectField of = new();
+        of.objectType = typeof(Sprite);
+        of.style.maxWidth = 80;
+
+        return of;
+    }
+
+    private VisualElement CreateVisualElement(ObjectField of, TextField tf)
+    {
+        VisualElement elem = new();
+        elem.style.flexDirection = FlexDirection.Row;
+        elem.style.alignItems = Align.Center;
+
+        elem.Add(of);
+        elem.Add(tf);
+
+        return elem;
     }
 }

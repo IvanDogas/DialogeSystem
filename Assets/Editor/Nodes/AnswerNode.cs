@@ -66,6 +66,11 @@ public class AnswerNode : BaseNode
 
         values.type = NodeType.Answer;
 
+        for (int i = 0; i < list.Count; i++)
+        {
+            values.texts.Add(list[i].txtField.value);
+        }
+
         values.code = code;
 
         return values;
@@ -128,7 +133,6 @@ public class TextFieldWithOutPort
 {
     public VisualElement elem;
     public TextField txtField;
-    public string txtValue;
     public Port outPort;
 
     public TextFieldWithOutPort(VisualElement elem, TextField tf, Port op)
