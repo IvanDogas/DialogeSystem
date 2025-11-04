@@ -55,7 +55,7 @@ public class Dialoge : MonoBehaviour
     public void BeginDialoge()
     {
         currentValue = 0;
-        LoadCurrentValue();
+        //LoadCurrentValue();
 
         OnBeginEvent?.Invoke();
     }

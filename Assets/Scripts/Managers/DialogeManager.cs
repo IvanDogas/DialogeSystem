@@ -31,6 +31,7 @@ public class DialogeManager : MonoBehaviour
         }
         else
         {
+            return;
         }
     }
 
