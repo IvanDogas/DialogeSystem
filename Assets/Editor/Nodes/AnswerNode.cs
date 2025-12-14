@@ -6,7 +6,6 @@ using UnityEditor.UIElements;
 public class AnswerNode : BaseNode
 {
     public Port inPort;
-    public ObjectField iconField;
 
     public List<TextFieldWithOutPort> list = new();
 
@@ -18,11 +17,6 @@ public class AnswerNode : BaseNode
         inPort.portName = "In";
         inPort.portColor = Color.magenta;
         inputContainer.Add(inPort);
-
-        iconField = new();
-        iconField.objectType = typeof(Sprite);
-
-        mainContainer.Add(iconField);
 
         RefreshExpandedState();
         RefreshPorts();
@@ -40,7 +34,7 @@ public class AnswerNode : BaseNode
         return elem;
     }
 
-    private TextField CreateListTextField()
+    private TextField CreateTextField()
     {
         TextField tf = new()
         {
@@ -51,7 +45,7 @@ public class AnswerNode : BaseNode
         return tf;
     }
 
-    private Port CreateListOutPort()
+    private Port CreateOutPort()
     {
         Port op = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(ResponseNode));
         op.portName = "Out";
@@ -76,17 +70,17 @@ public class AnswerNode : BaseNode
         return values;
     }
 
-    protected override void Add()
+    public override void Add()
     {
-        TextField tf = CreateListTextField();
-        Port op = CreateListOutPort();
+        TextField tf = CreateTextField();
+        Port op = CreateOutPort();
         VisualElement elem = CreateListVisualElement(tf, op);
 
         list.Add(new TextFieldWithOutPort(elem, tf, op));
         mainContainer.Add(elem);
     }
 
-    protected override void Remove()
+    public override void Remove()
     {
         if (list.Count > 0)
         {
@@ -99,7 +93,7 @@ public class AnswerNode : BaseNode
         }
     }
 
-    protected override void RemoveAll()
+    public override void RemoveAll()
     {
         for (int i = list.Count - 1; i >= 0; i--)
         {
@@ -109,6 +103,7 @@ public class AnswerNode : BaseNode
             list.RemoveAt(i);
         }
     }
+
 
     public override List<Port> GetPorts()
     {

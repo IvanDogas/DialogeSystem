@@ -8,12 +8,12 @@ using UnityEngine.UI;
 
 public class DialogeManager : MonoBehaviour
 {
+    [SerializeField] private Camera dialogeCamera;
+
     [SerializeField] private GameObject answerButton;
     [SerializeField] private Transform buttonParent;
 
     [SerializeField] private TextMeshProUGUI responseTMP;
-
-    [SerializeField] private Button button;
 
     public void LoadInfo(NodeValues value,Dialoge dialoge)
     {

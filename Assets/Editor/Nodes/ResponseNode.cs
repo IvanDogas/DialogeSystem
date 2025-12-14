@@ -6,10 +6,10 @@ using UnityEditor.UIElements;
 
 public class ResponseNode : BaseNode
 {
-    private Port inPort;
-    private Port outPort;
+    public Port inPort;
+    public Port outPort;
 
-    public List<TextFieldWithObjectField> fields = new();
+    public List<TextField> texts = new();
 
     public ResponseNode(GraphView graph) : base(graph)
     {
@@ -51,9 +51,9 @@ public class ResponseNode : BaseNode
 
         values.type = NodeType.Response;
 
-        for (int i = 0; i < fields.Count; i++)
+        for (int i = 0; i < texts.Count; i++)
         {
-            values.texts.Add(fields[i].tf.value);
+            values.texts.Add(texts[i].value);
         }
 
         values.code = code;
@@ -61,35 +61,33 @@ public class ResponseNode : BaseNode
         return values;
     }
 
-    protected override void Add()
+    public override void Add()
     {
         TextField tf = CreateTextField();
-        ObjectField of = CreateObjectField();
-        VisualElement elem = CreateVisualElement(of, tf);
 
-        fields.Add(new(elem, tf, of));
-        mainContainer.Add(elem);
+        texts.Add(tf);
+        mainContainer.Add(tf);
     }
 
-    protected override void Remove()
+    public override void Remove()
     {
-        if (fields.Count > 0)
+        if (texts.Count > 0)
         {
-            TextFieldWithObjectField field = fields[fields.Count - 1];
+            TextField field = texts[texts.Count - 1];
 
-            mainContainer.Remove(field.elem);
-            fields.Remove(field);
+            mainContainer.Remove(field);
+            texts.Remove(field);
         }
     }
 
-    protected override void RemoveAll()
+    public override void RemoveAll()
     {
-        for (int i = fields.Count - 1; i >= 0; i--)
+        for (int i = texts.Count - 1; i >= 0; i--)
         {
-            TextFieldWithObjectField field = fields[i];
+            TextField field = texts[i];
 
-            mainContainer.Remove(field.elem);
-            fields.Remove(field);
+            mainContainer.Remove(field);
+            texts.Remove(field);
         }
     }
 
@@ -102,26 +100,5 @@ public class ResponseNode : BaseNode
         tf.style.minWidth = 120;
 
         return tf;
-    }
-
-    private ObjectField CreateObjectField()
-    {
-        ObjectField of = new();
-        of.objectType = typeof(Sprite);
-        of.style.maxWidth = 80;
-
-        return of;
-    }
-
-    private VisualElement CreateVisualElement(ObjectField of, TextField tf)
-    {
-        VisualElement elem = new();
-        elem.style.flexDirection = FlexDirection.Row;
-        elem.style.alignItems = Align.Center;
-
-        elem.Add(of);
-        elem.Add(tf);
-
-        return elem;
     }
 }

@@ -29,8 +29,8 @@ public abstract class BaseNode : Node
         mainContainer.Add(removeAll);
     }
 
-    protected abstract void Add();
-    protected abstract void Remove();
-    protected abstract void RemoveAll();
+    public abstract void Add();
+    public abstract void Remove();
+    public abstract void RemoveAll();
 }
 
