@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,5 +20,5 @@ public class TextMethods : MonoBehaviour
     public void AddText(string s) => text.text += s;
     public void AddStringValue(StringVariable s) => text.text += s.Value;
     public void AddIntValue(IntVariable i) => text.text += i.Value.ToString();
-    public void AddFloatValue(FloatVariable f) => text.text += f.Value.ToString(); 
+    public void AddFloatValue(FloatVariable f) => text.text += f.Value.ToString();
 }

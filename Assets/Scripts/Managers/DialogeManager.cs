@@ -8,17 +8,38 @@ using UnityEngine.UI;
 
 public class DialogeManager : MonoBehaviour
 {
+    [SerializeField]private InputReader reader;
+
+    private NodeValues currentValues;
+    private Dialoge currentDialoge;
+
     [SerializeField] private Camera dialogeCamera;
 
     [SerializeField] private GameObject answerButton;
     [SerializeField] private Transform buttonParent;
 
     [SerializeField] private TextMeshProUGUI responseTMP;
+    private int currentResponseIndex;
+    private bool canSkipToNextResponse;
+
+    [SerializeField] private UnityEvent OnResponseBegin,OnResponseEnd,OnAnswerBegin,OnAnswerEnd;
+
+    private void Awake()
+    {
+        dialogeCamera.gameObject.SetActive(false);
+    }
 
     public void LoadInfo(NodeValues value,Dialoge dialoge)
     {
         if(value.type == NodeType.Answer)
         {
+            OnAnswerBegin?.Invoke();
+
+            for (int i = 0; i < buttonParent.childCount; i++)
+            {
+                Destroy(buttonParent.GetChild(i).gameObject);
+            }
+
             for (int i = 0; i < value.texts.Count; i++)
             {
                 Button buttonI = Instantiate(answerButton, buttonParent).GetComponent<Button>();
@@ -31,7 +52,23 @@ public class DialogeManager : MonoBehaviour
         }
         else
         {
-            return;
+            currentValues = value;
+            currentDialoge = dialoge;
+
+            OnResponseBegin?.Invoke();
+
+            StartCoroutine(ShowText(value.texts[0]));
+            currentResponseIndex = 0;
+            canSkipToNextResponse = true;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && canSkipToNextResponse)
+        {
+            StopAllCoroutines();
+            NextResponse();
         }
     }
 
@@ -49,7 +86,32 @@ public class DialogeManager : MonoBehaviour
 
     public void PickOption(int num,Dialoge dialoge)
     {
-        dialoge.PickedAnswer(num);
+        OnAnswerEnd?.Invoke();
+
+        dialoge.PickedAnswer(num); 
+    }
+
+    private void NextResponse()
+    {
+        currentResponseIndex++;
+
+        if(currentValues.texts.Count > currentResponseIndex)
+        {
+            StartCoroutine(ShowText(currentValues.texts[currentResponseIndex]));
+        }
+        else
+        {
+            EndOfResponses();
+        }
+    }
+
+    private void EndOfResponses()
+    {
+        OnResponseEnd?.Invoke();
+
+        canSkipToNextResponse = false;
+
+        currentDialoge.LoadFromResponse(currentValues);
     }
 }
 

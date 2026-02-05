@@ -1,7 +1,11 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.InputSystem;
+using UnityEditor;
+using UnityEditor.Playables;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class Dialoge : MonoBehaviour
 {
@@ -9,43 +13,48 @@ public class Dialoge : MonoBehaviour
 
     [SerializeField] private DialogeInfo info;
     private int num;
-    private int currentValue;
+    private int currentCode;
+    private bool addToEndEvents = true;
 
-    [SerializeField] List<UnityEvent> events = new();
+    [SerializeField] List<UnityEvent> endingEvents = new();
 
     [SerializeField] private UnityEvent OnBeginEvent;
+    [SerializeField] private UnityEvent OnEndEvent;
 
-    private void OnValidate()
-    {
-        if(info != null)
-        {
-            int amountOfOutcomes = 0;
-            for (int i = 0; i < info.values.Count; i++)
-            {
-                if (info.values[i].nextNodeCode.Count <= 0)
-                {
-                    events.Add(new UnityEvent());
-                    amountOfOutcomes++;
-                }
-            }
-            num = amountOfOutcomes;
-        }
+    //#if UNITY_EDITOR
+    //private void OnValidate()
+    //{
+    //    if(info != null && addToEndEvents)
+    //    {
+    //        addToEndEvents = false;
 
-        if(events.Count != num)
-        {
-            List<UnityEvent> list = events;
+    //        int amountOfOutcomes = 0;
 
-            for (int i = events.Count - 1; i >= 0; i--)
-            {
-                events.RemoveAt(i);
-            }
+    //        if(endingEvents.Count > 0)
+    //        {
+    //            for (int i = endingEvents.Count - 1; i >= 0; i--)
+    //            {
+    //                endingEvents.RemoveAt(i);
+    //            }
+    //        }
 
-            for (int i = 0; i < num; i++)
-            {
-                events.Add(new UnityEvent());
-            }
-        }
-    }
+    //        for (int i = 0; i < info.values.Count; i++)
+    //        {
+    //            if (info.values[i].nextNodeCode.Count <= 0)
+    //            {
+    //                endingEvents.Add(new UnityEvent());
+    //                amountOfOutcomes++;
+    //            }
+    //        }
+    //        num = amountOfOutcomes;
+    //    }
+
+    //    if(endingEvents.Count != num)
+    //    {
+    //        addToEndEvents = true;
+    //    }
+    //}
+    //#endif
 
     private void Start()
     {
@@ -54,25 +63,118 @@ public class Dialoge : MonoBehaviour
 
     public void BeginDialoge()
     {
-        currentValue = 0;
-        //LoadCurrentValue();
+        currentCode = 0;
+        LoadCurrentCode();
 
         OnBeginEvent?.Invoke();
     }
 
-    public void LoadCurrentValue()
+    public void LoadCurrentCode()
     {
-        manager.LoadInfo(info.values[currentValue], this);
+        int index = 0;
+
+        for(int i = 0;i < info.values.Count;i++)
+        {
+            if (info.values[i].code == currentCode)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        manager.LoadInfo(info.values[index], this);
+    }
+
+    public void LoadFromResponse(NodeValues value)
+    {
+        int index = 0;
+
+        for (int i = 0; i < info.values.Count; i++)
+        {
+            if (info.values[i] == value)
+            {
+                index = i; 
+                break;
+            }
+        }
+
+        if(info.values[index].nextNodeCode.Count > 0)
+        {
+            currentCode = info.values[index].nextNodeCode[0];
+            LoadCurrentCode();
+        }
+        else
+        {
+            EndDialoge();
+        }
     }
 
     public void PickedAnswer(int num)
     {
-        currentValue = info.values[currentValue].nextNodeCode[num];
-        LoadCurrentValue();
+        currentCode = info.values[currentCode].nextNodeCode[num];
+        LoadCurrentCode();
     }
 
     public void EndDialoge()
     {
+        NodeValues endingValue = null;
+        int currentEnding = 0;
 
+        for (int i = 0; i < info.values.Count; i++)
+        {
+            if(info.values[i].nextNodeCode.Count <= 0)
+            {
+                currentEnding++;
+
+                if (info.values[i].code == currentCode)
+                {
+                    endingEvents[currentEnding - 1]?.Invoke();
+                }
+            }
+        }
+
+        OnEndEvent?.Invoke();
+    }
+}
+
+[CustomEditor(typeof(Dialoge))]
+public class DialogeEditor : Editor
+{
+    private SerializedProperty info;
+
+    private SerializedProperty endingEvents;
+
+    private int amountOfEndings;
+
+    private void OnEnable()
+    {
+        info = serializedObject.FindProperty("info");
+        endingEvents = serializedObject.FindProperty("endingEvents");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        DialogeInfo info = (DialogeInfo)this.info.objectReferenceValue;
+        amountOfEndings = 0;
+
+        List<UnityEvent> endingEvents = null;
+        
+        for (int i = 0; i < info.values.Count; i++)
+        {
+            if (info.values[i].nextNodeCode.Count <= 0)
+            {
+                EditorGUILayout.LabelField($"Ending event index {amountOfEndings}: {info.values[i].texts[0]}");
+                amountOfEndings++;
+            }
+        }
+
+        if(amountOfEndings > 0)
+        {
+            for (int i = 0; i < amountOfEndings; i++)
+            {
+            }
+        }
     }
 }

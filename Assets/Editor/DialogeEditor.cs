@@ -85,7 +85,7 @@ public class DialogeEditor : EditorWindow
     {
         if (loadNodeDialogeInfo.value != null)
         {
-            if(!toolbar.Contains(loadFromAsset))
+            if (!toolbar.Contains(loadFromAsset))
             {
                 toolbar.Add(loadFromAsset);
                 toolbar.Add(updateAsset);
@@ -93,7 +93,7 @@ public class DialogeEditor : EditorWindow
         }
         else
         {
-            if(toolbar.Contains(loadFromAsset))
+            if (toolbar.Contains(loadFromAsset))
             {
                 toolbar.Remove(loadFromAsset);
                 toolbar.Remove(updateAsset);
@@ -274,6 +274,18 @@ public class DialogeEditor : EditorWindow
             }
         }
 
+        int num = 0;
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            if (values[i].code > num)
+            {
+                num = values[i].code;
+            }
+        }
+
+        nodeAmount = num + 1;
+
         if (values.Count > 0)
         {
             for (int i = 0; i < values[0].texts.Count; i++)
@@ -351,6 +363,8 @@ public class DialogeEditor : EditorWindow
                     break;
             }
         }
+
+        AutoSort();
     }
 
     private void UpdateAsset()
@@ -450,6 +464,11 @@ public class DialogeEditor : EditorWindow
 
         activeNodes.Add(r);
         graph.AddElement(r);
+    }
+
+    private void AutoSort()
+    {
+
     }
 }
 

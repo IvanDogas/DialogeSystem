@@ -10,7 +10,6 @@ public class StartNode : BaseNode
 
     public List<TextField> texts = new();
 
-
     public StartNode(GraphView graph) : base(graph)
     {
         title = "Start-Intro";      
