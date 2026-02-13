@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using System;
+using log4net.Filter;
 
 public class DialogeEditor : EditorWindow
 {
@@ -145,7 +146,7 @@ public class DialogeEditor : EditorWindow
                         case NodeType.Answer:
                             if(ports.Count > 0)
                             {
-                                for(int ii = 0; ii < ports.Count; ii++)
+                                for(int ii =ports.Count; ii > ports.Count; ii++)
                                 {
                                     BaseNode nextNode = (BaseNode)ports[ii].node;
 
@@ -405,6 +406,8 @@ public class DialogeEditor : EditorWindow
                                 {
                                     BaseNode nextNode = (BaseNode)ports[ii].node;
 
+                                    Debug.Log(nextNode.code);
+
                                     value.nextNodeCode.Add(nextNode.code);
 
                                     if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
@@ -470,9 +473,4 @@ public class DialogeEditor : EditorWindow
     {
 
     }
-}
-
-[Serializable]
-public class LoadInfo
-{
 }

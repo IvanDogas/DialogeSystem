@@ -33,4 +33,3 @@ public abstract class BaseNode : Node
     public abstract void Remove();
     public abstract void RemoveAll();
 }
-

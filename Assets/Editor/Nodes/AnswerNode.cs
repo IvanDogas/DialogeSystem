@@ -109,7 +109,7 @@ public class AnswerNode : BaseNode
     {
         List<Port> ports = new();
 
-        for (int i = list.Count - 1; i >= 0; i--)
+        for (int i = 0; i < list.Count; i++)
         {
             foreach (Edge item in list[i].outPort.connections)
             {
