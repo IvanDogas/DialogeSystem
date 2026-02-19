@@ -117,7 +117,6 @@ public class Dialoge : MonoBehaviour
 
     public void EndDialoge()
     {
-        NodeValues endingValue = null;
         int currentEnding = 0;
 
         for (int i = 0; i < info.values.Count; i++)
@@ -128,7 +127,7 @@ public class Dialoge : MonoBehaviour
 
                 if (info.values[i].code == currentCode)
                 {
-                    endingEvents[currentEnding - 1]?.Invoke();
+                    if (endingEvents[currentEnding - 1] != null) endingEvents[currentEnding - 1]?.Invoke();
                 }
             }
         }

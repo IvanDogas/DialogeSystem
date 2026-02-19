@@ -8,10 +8,6 @@ public abstract class BaseNode : Node
     protected GraphView graph;
     public int code;
 
-    public abstract NodeValues GetValues();
-
-    public abstract List<Port> GetPorts();
-
     public BaseNode(GraphView graph)
     {
         this.graph = graph;
@@ -29,6 +25,8 @@ public abstract class BaseNode : Node
         mainContainer.Add(removeAll);
     }
 
+    public abstract NodeValues GetValues();
+    public abstract List<Port> GetPorts();
     public abstract void Add();
     public abstract void Remove();
     public abstract void RemoveAll();

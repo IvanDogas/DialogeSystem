@@ -29,12 +29,10 @@ public class DialogeEditor : EditorWindow
 
     private void OnEnable()
     {
-        graph = new DialogeGraphView
-        {
-            name = "Dialoge"
-        };
+        graph = new DialogeGraphView();
+
         graph.StretchToParentSize();
-        rootVisualElement.Add(graph);       
+        rootVisualElement.Add(graph);
 
         toolbar = new();
 
@@ -47,9 +45,9 @@ public class DialogeEditor : EditorWindow
         createAnswerNode.text = "New Answer Node";
         createAnswerNode.clicked += CreateANode;
 
-        Button createResponseNodde = new();
-        createResponseNodde.text = "New Response Node";
-        createResponseNodde.clicked += CreateRNode;
+        Button createResponseNode = new();
+        createResponseNode.text = "New Response Node";
+        createResponseNode.clicked += CreateRNode;
 
         loadFromAsset = new();
         loadFromAsset.text = "Load";
@@ -61,7 +59,7 @@ public class DialogeEditor : EditorWindow
 
         toolbar.Add(createAssetButton);
         toolbar.Add(createAnswerNode);
-        toolbar.Add(createResponseNodde);
+        toolbar.Add(createResponseNode);
 
         Label label = new();
         label.text = "Load DialogeInfo:";
@@ -69,8 +67,8 @@ public class DialogeEditor : EditorWindow
 
         loadNodeDialogeInfo = new();
         loadNodeDialogeInfo.objectType = typeof(DialogeInfo);
-        
-        toolbar.Add(label); 
+
+        toolbar.Add(label);
         toolbar.Add(loadNodeDialogeInfo);
 
         rootVisualElement.Add(toolbar);
