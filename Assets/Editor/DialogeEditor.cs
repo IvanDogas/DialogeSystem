@@ -4,9 +4,6 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
-using System;
-using log4net.Filter;
 
 public class DialogeEditor : EditorWindow
 {
@@ -404,8 +401,6 @@ public class DialogeEditor : EditorWindow
                                 {
                                     BaseNode nextNode = (BaseNode)ports[ii].node;
 
-                                    Debug.Log(nextNode.code);
-
                                     value.nextNodeCode.Add(nextNode.code);
 
                                     if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
@@ -449,7 +444,7 @@ public class DialogeEditor : EditorWindow
         AnswerNode a = new(graph);
         a.code = nodeAmount;
         nodeAmount++;
-        a.SetPosition(new Rect(0, 0, 150, 200));
+        a.SetPosition(new Rect(0, 200, 150, 200));
         activeNodes.Add(a);
         graph.AddElement(a);
     }
@@ -461,7 +456,7 @@ public class DialogeEditor : EditorWindow
         r.code = nodeAmount;
         nodeAmount++;
         
-        r.SetPosition(new Rect(0, 0, 150, 200));
+        r.SetPosition(new Rect(0, 200, 150, 200));
 
         activeNodes.Add(r);
         graph.AddElement(r);
@@ -469,6 +464,101 @@ public class DialogeEditor : EditorWindow
 
     private void AutoSort()
     {
+        startNode.SetPosition(new Rect(0, 0, 150, 200));
+        int x = 0;
+        int y = 0;
 
+        List<SortingInfo> sort = new();
+
+        if(startNode.GetPorts().Count > 0)
+        {
+            BaseNode nextNode = (BaseNode)startNode.GetPorts()[0].node;
+            sort.Add(new(nextNode, y));    
+        }
+
+        while (sort.Count > 0) 
+        {
+            x += 200;
+
+            List<SortingInfo> newSort = new();
+            
+            for (int i = 0; i < sort.Count; i++)
+            {
+                NodeValues values = sort[i].node.GetValues();
+                BaseNode node = sort[i].node;
+                y = sort[i].yPos;
+
+                switch (values.type)
+                {
+                    case NodeType.Response:
+                        int count = 1;
+                        int thisCount = 0;
+
+                        for (int j = 0; j < sort.Count; j++)
+                        {
+                            if (sort[i].yPos == sort[j].yPos)
+                            {
+                                count++;
+                            }
+                            if (sort[i].node == sort[j].node)
+                            {
+                                thisCount = count;
+                            }
+                        }
+
+                        if (count > 2)
+                        {
+                            int yMultiplier = ((count - 1) - ((count - 1) % 2)) / 2;
+                            y += (-200 * yMultiplier);
+                            y += 200 * (thisCount-1);
+                        }
+
+                        node.SetPosition(new Rect(x, y, 150, 200));
+                        
+                        if(node.GetPorts().Count > 0)
+                        {
+                            BaseNode nextNode = (BaseNode)node.GetPorts()[0].node;
+
+                            newSort.Add(new(nextNode, y));
+                        }
+                        break;
+
+                    case NodeType.Answer:
+                        int yMultiplier2 = ((sort.Count - 1) - ((sort.Count - 1) % 2)) / 2;
+
+                        int ay = (-200 * yMultiplier2) + 200 * i;
+
+                        node.SetPosition(new Rect(x, y + ay, 150, 200));
+
+                        if(node.GetPorts().Count > 0)
+                        {
+                            for (int j = 0; j < node.GetPorts().Count; j++)
+                            {
+                                BaseNode nextNode = (BaseNode)node.GetPorts()[j].node;
+
+                                newSort.Add(new(nextNode, y + ay));
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            sort = newSort;
+        }
+    }
+}
+
+[System.Serializable]
+public class SortingInfo
+{
+    public BaseNode node;
+    public int yPos;
+
+    public SortingInfo(BaseNode n, int y)
+    {
+        node = n;
+        yPos = y;
     }
 }
