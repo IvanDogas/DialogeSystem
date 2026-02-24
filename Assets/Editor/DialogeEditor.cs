@@ -141,13 +141,20 @@ public class DialogeEditor : EditorWindow
                         case NodeType.Answer:
                             if(ports.Count > 0)
                             {
-                                for(int ii =ports.Count; ii > ports.Count; ii++)
+                                for(int ii = ports.Count; ii > ports.Count; ii++)
                                 {
+                                    bool canAddQ = true;
+
+                                    for (int j = 0; j < values.Count; j++)
+                                    {
+                                        if (values[j].code == ((BaseNode)ports[ii].node).code) canAddQ = false;
+                                    }
+
                                     BaseNode nextNode = (BaseNode)ports[ii].node;
 
                                     value.nextNodeCode.Add(nextNode.code);
 
-                                    if(!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
+                                    if (!nextQ.Contains(nextNode) && canAddQ) nextQ.Add(nextNode);
                                 }
                             }
 
@@ -156,10 +163,18 @@ public class DialogeEditor : EditorWindow
                         case NodeType.Response:
                             if(ports.Count > 0)
                             {
+                                bool canAddQ = true;
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    if (values[j].code == ((BaseNode)ports[0].node).code) canAddQ = false;
+                                }
+
                                 BaseNode nextNode = (BaseNode)ports[0].node;
                                 value.nextNodeCode.Add(nextNode.code);
 
-                                if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
+                                if (!nextQ.Contains(nextNode) && canAddQ) nextQ.Add(nextNode);
+
                             }
                             break;
                         
@@ -191,6 +206,8 @@ public class DialogeEditor : EditorWindow
 
     private void LoadFromAsset()
     {
+        startNode.RemoveAll();
+
         List<NodeValues> values = ((DialogeInfo)loadNodeDialogeInfo.value).values;
 
         if(activeNodes.Count > 0)
@@ -399,11 +416,18 @@ public class DialogeEditor : EditorWindow
                             {
                                 for (int ii = 0; ii < ports.Count; ii++)
                                 {
+                                    bool canAddQ = true;
+
+                                    for (int j = 0; j < values.Count; j++)
+                                    {
+                                        if (values[j].code == ((BaseNode)ports[ii].node).code) canAddQ = false;
+                                    }
+
                                     BaseNode nextNode = (BaseNode)ports[ii].node;
 
                                     value.nextNodeCode.Add(nextNode.code);
 
-                                    if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
+                                    if (!nextQ.Contains(nextNode) && canAddQ) nextQ.Add(nextNode);
                                 }
                             }
 
@@ -412,10 +436,17 @@ public class DialogeEditor : EditorWindow
                         case NodeType.Response:
                             if (ports.Count > 0)
                             {
+                                bool canAddQ = true;
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    if (values[j].code == ((BaseNode)ports[0].node).code) canAddQ = false;
+                                }
+
                                 BaseNode nextNode = (BaseNode)ports[0].node;
                                 value.nextNodeCode.Add(nextNode.code);
 
-                                if (!nextQ.Contains(nextNode)) nextQ.Add(nextNode);
+                                if (!nextQ.Contains(nextNode) && canAddQ) nextQ.Add(nextNode);
                             }
                             break;
 
