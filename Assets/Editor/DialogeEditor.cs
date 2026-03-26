@@ -468,6 +468,8 @@ public class DialogeEditor : EditorWindow
         Selection.activeObject = asset;
 
         asset.values = values;
+
+        EditorUtility.SetDirty(asset);
     }
 
     private void CreateANode()

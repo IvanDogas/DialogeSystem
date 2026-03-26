@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class DialogeManager : MonoBehaviour
 {
-    [SerializeField]private InputReader reader;
-
     private NodeValues currentValues;
     private Dialoge currentDialoge;
 
@@ -40,7 +38,7 @@ public class DialogeManager : MonoBehaviour
                 Destroy(buttonParent.GetChild(i).gameObject);
             }
 
-            for (int i = 0; i < value.texts.Count; i++)
+            for (int i = 0; i < value.nextNodeCode.Count; i++)
             {
                 Button buttonI = Instantiate(answerButton, buttonParent).GetComponent<Button>();
 

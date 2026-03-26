@@ -64,7 +64,7 @@ public class StartNode : BaseNode
 
     public override void Remove()
     {
-        if(texts.Count > 0)
+        if (texts.Count > 0)
         {
             TextField field = texts[texts.Count - 1];
 

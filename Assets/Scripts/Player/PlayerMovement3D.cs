@@ -1,3 +1,4 @@
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerMovement3D : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerMovement3D : MonoBehaviour
 
     private Rigidbody _rb;
     private Animator _anim;
+    private bool _isMoving;
 
     [SerializeField] private float speed;
 
@@ -30,13 +32,13 @@ public class PlayerMovement3D : MonoBehaviour
 
         if (reader.moveInput != Vector2.zero)
         {
-            //_anim.Play("Jog");
+            _anim.SetBool("IsMoving", true);
             SetYRotation();
         }
-        //else
-        //{
-        //    _anim.Play("Idle");
-        //}
+        else
+        {
+            _anim.SetBool("IsMoving", false);
+        }
     }
 
     private void SetYRotation()

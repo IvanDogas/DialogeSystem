@@ -1,11 +1,7 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.InputSystem;
 using UnityEditor;
-using UnityEditor.Playables;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class Dialoge : MonoBehaviour
 {
@@ -91,7 +87,7 @@ public class Dialoge : MonoBehaviour
 
         for (int i = 0; i < info.values.Count; i++)
         {
-            if (info.values[i] == value)
+            if (info.values[i].code == value.code)
             {
                 index = i; 
                 break;
@@ -111,7 +107,13 @@ public class Dialoge : MonoBehaviour
 
     public void PickedAnswer(int num)
     {
-        currentCode = info.values[currentCode].nextNodeCode[num];
+        int currentIndex = 0;
+        for (int i = 0; i < info.values.Count; i++)
+        {
+            if (info.values[i].code == currentCode) currentIndex = i;
+        }
+
+        currentCode = info.values[currentIndex].nextNodeCode[num];
         LoadCurrentCode();
     }
 
@@ -127,11 +129,51 @@ public class Dialoge : MonoBehaviour
 
                 if (info.values[i].code == currentCode)
                 {
-                    if (endingEvents[currentEnding - 1] != null) endingEvents[currentEnding - 1]?.Invoke();
+                    if (endingEvents.Count > currentEnding - 1 && endingEvents[currentEnding - 1] != null) endingEvents[currentEnding - 1]?.Invoke();
                 }
             }
         }
 
         OnEndEvent?.Invoke();
+    }
+
+    public void ChangeDialogeInfo(DialogeInfo info)
+    {
+        this.info = info;
+    }
+}
+
+[CustomEditor(typeof(Dialoge))]
+public class DialogeEditor : Editor
+{
+    private SerializedProperty info;
+
+    private SerializedProperty endingEvents;
+
+    private int amountOfEndings;
+
+    private void OnEnable()
+    {
+        info = serializedObject.FindProperty("info");
+        endingEvents = serializedObject.FindProperty("endingEvents");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        DialogeInfo info = (DialogeInfo)this.info.objectReferenceValue;
+        amountOfEndings = 0;
+
+        List<UnityEvent> endingEvents = null;
+
+        for (int i = 0; i < info.values.Count; i++)
+        {
+            if (info.values[i].nextNodeCode.Count <= 0)
+            {
+                EditorGUILayout.LabelField($"Ending event index {amountOfEndings}: {info.values[i].texts[0]}");
+                amountOfEndings++;
+            }
+        }
     }
 }
