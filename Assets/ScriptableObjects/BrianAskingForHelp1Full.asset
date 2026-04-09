@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072a881c862610946be7894247778664, type: 3}
+  m_Name: BrianAskingForHelp1Full
+  m_EditorClassIdentifier: 
+  values:
+  - type: 0
+    texts:
+    - Hello Brian.
+    - Can you help me with something?
+    code: 0
+    nextNodeCode: 01000000
+  - type: 2
+    texts:
+    - Sure. What?
+    - Not now.
+    code: 1
+    nextNodeCode: 0400000002000000
+  - type: 1
+    texts:
+    - I lost my wrench.
+    - Please help me find it.
+    code: 4
+    nextNodeCode: 05000000
+  - type: 1
+    texts:
+    - Okay.
+    - Come back when you can help.
+    code: 2
+    nextNodeCode: 
+  - type: 2
+    texts:
+    - Where?
+    - Sure.
+    - Not now.
+    code: 5
+    nextNodeCode: 070000000800000002000000
+  - type: 1
+    texts:
+    - Last time I remeber using it,
+    - I used it somewhere in the warehouse
+    code: 7
+    nextNodeCode: 09000000
+  - type: 1
+    texts:
+    - Great!
+    - Come back when you have found it.
+    code: 8
+    nextNodeCode: 
+  - type: 2
+    texts:
+    - I'll help.
+    - Later.
+    code: 9
+    nextNodeCode: 0b0000000a000000
+  - type: 1
+    texts:
+    - Amazing!
+    - Come back when you have found it.
+    code: 11
+    nextNodeCode: 
+  - type: 1
+    texts:
+    - It's okay.
+    - Come back when you can help.
+    code: 10
+    nextNodeCode: 

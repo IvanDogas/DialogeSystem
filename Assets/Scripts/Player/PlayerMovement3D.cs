@@ -7,7 +7,6 @@ public class PlayerMovement3D : MonoBehaviour
 
     private Rigidbody _rb;
     private Animator _anim;
-    private bool _isMoving;
 
     [SerializeField] private float speed;
 
@@ -90,5 +89,11 @@ public class PlayerMovement3D : MonoBehaviour
         }
 
         transform.localEulerAngles = Vector3.up * YRot;
+    }
+
+    private void OnDisable()
+    {
+        reader.moveInput = Vector2.zero;
+        _anim.SetBool("IsMoving", false);
     }
 }

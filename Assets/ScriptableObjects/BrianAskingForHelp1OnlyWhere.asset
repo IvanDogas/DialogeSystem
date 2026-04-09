@@ -10,40 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 072a881c862610946be7894247778664, type: 3}
-  m_Name: BrianAskingForHelp1
+  m_Name: BrianAskingForHelp1OnlyWhere
   m_EditorClassIdentifier: 
   values:
   - type: 0
     texts:
     - Hello Brian.
-    - Can you help me with something?
+    - Did you find my wrench?
     code: 0
     nextNodeCode: 01000000
   - type: 2
     texts:
-    - Sure. What?
-    - Not now.
+    - No
     code: 1
-    nextNodeCode: 0400000002000000
+    nextNodeCode: 04000000
   - type: 1
     texts:
-    - I lost my wrench.
-    - Please help me find it.
+    - Oh okay.
+    - Do you need anything?
     code: 4
     nextNodeCode: 05000000
-  - type: 1
-    texts:
-    - Okay.
-    - Come back when you can help.
-    code: 2
-    nextNodeCode: 
   - type: 2
     texts:
     - Where?
-    - Sure.
-    - Not now.
+    - No.
     code: 5
-    nextNodeCode: 070000000800000002000000
+    nextNodeCode: 0700000008000000
   - type: 1
     texts:
     - Last time I remeber using it,
@@ -52,25 +44,18 @@ MonoBehaviour:
     nextNodeCode: 09000000
   - type: 1
     texts:
-    - Great!
-    - Come back when you have found it.
+    - Oh okay.
+    - Come back when you can help.
     code: 8
     nextNodeCode: 
   - type: 2
     texts:
-    - I'll help.
-    - Later.
+    - Thanks.
     code: 9
-    nextNodeCode: 0b0000000a000000
+    nextNodeCode: 0b000000
   - type: 1
     texts:
-    - Amazing!
-    - Come back when you have found it.
-    code: 11
-    nextNodeCode: 
-  - type: 1
-    texts:
-    - It's okay.
+    - No problem brian
     - Come back when you can help.
-    code: 10
+    code: 11
     nextNodeCode: 

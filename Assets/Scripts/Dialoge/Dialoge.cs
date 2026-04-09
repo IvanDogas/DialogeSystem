@@ -8,9 +8,7 @@ public class Dialoge : MonoBehaviour
     private DialogeManager manager;
 
     [SerializeField] private DialogeInfo info;
-    private int num;
     private int currentCode;
-    private bool addToEndEvents = true;
 
     [SerializeField] List<UnityEvent> endingEvents = new();
 
