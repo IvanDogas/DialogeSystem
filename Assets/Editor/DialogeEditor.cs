@@ -115,7 +115,7 @@ public class DialogeEditor : EditorWindow
 
         NodeValues startValue = startNode.GetValues();
 
-        if(startNode.GetPorts().Count > 0)
+        if (startNode.GetPorts().Count > 0)
         {
             BaseNode startNextNode = (BaseNode)startNode.GetPorts()[0].node;
 
@@ -127,7 +127,7 @@ public class DialogeEditor : EditorWindow
 
         do
         {
-            if(q.Count > 0)
+            if (q.Count > 0)
             {
                 List<BaseNode> nextQ = new();
 
@@ -139,9 +139,9 @@ public class DialogeEditor : EditorWindow
                     switch (value.type)
                     {
                         case NodeType.Answer:
-                            if(ports.Count > 0)
+                            if (ports.Count > 0)
                             {
-                                for(int ii = ports.Count; ii > ports.Count; ii++)
+                                for (int ii = 0; ii < ports.Count; ii++)
                                 {
                                     bool canAddQ = true;
 
@@ -159,9 +159,9 @@ public class DialogeEditor : EditorWindow
                             }
 
                             break;
-                        
+
                         case NodeType.Response:
-                            if(ports.Count > 0)
+                            if (ports.Count > 0)
                             {
                                 bool canAddQ = true;
 
@@ -174,10 +174,9 @@ public class DialogeEditor : EditorWindow
                                 value.nextNodeCode.Add(nextNode.code);
 
                                 if (!nextQ.Contains(nextNode) && canAddQ) nextQ.Add(nextNode);
-
                             }
                             break;
-                        
+
                         default:
                             break;
                     }

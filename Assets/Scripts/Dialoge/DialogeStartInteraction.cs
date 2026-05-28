@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,6 +11,7 @@ public class DialogeStartInteraction : InteractionBase
     public override void Interaction()
     {
         dialoge.BeginDialoge();
+        Debug.Log("Interaction");
     }
 
     public override void SetUpInteraction()
@@ -25,6 +27,14 @@ public class DialogeStartInteraction : InteractionBase
     private void OnDisable()
     {
         manager.RemoveInteraction(this);
+    }
+
+    private void Update()
+    {
+        if(dialoge.enabled == false)
+        {
+            manager.RemoveInteraction(this);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -11,6 +11,7 @@ public class ItemPickUp : InteractionBase
     public override void Interaction()
     {
         OnPickUpEvent?.Invoke();
+        manager.RemoveInteraction(this);
     }
 
     public override void SetUpInteraction()

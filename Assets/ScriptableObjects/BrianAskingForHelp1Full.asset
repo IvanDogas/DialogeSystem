@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 072a881c862610946be7894247778664, type: 3}
   m_Name: BrianAskingForHelp1Full
   m_EditorClassIdentifier: 
+  useEvents: 1
   values:
   - type: 0
     texts:

@@ -119,6 +119,8 @@ public class Dialoge : MonoBehaviour
     {
         int currentEnding = 0;
 
+        bool disable = info.useEvents;
+
         for (int i = 0; i < info.values.Count; i++)
         {
             if(info.values[i].nextNodeCode.Count <= 0)
@@ -127,12 +129,17 @@ public class Dialoge : MonoBehaviour
 
                 if (info.values[i].code == currentCode)
                 {
-                    if (endingEvents.Count > currentEnding - 1 && endingEvents[currentEnding - 1] != null) endingEvents[currentEnding - 1]?.Invoke();
+                    if (endingEvents.Count > currentEnding - 1 && endingEvents[currentEnding - 1] != null && info.useEvents)
+                    {
+                        endingEvents[currentEnding - 1]?.Invoke();
+                    }
                 }
             }
         }
 
         OnEndEvent?.Invoke();
+
+        enabled = disable;
     }
 
     public void ChangeDialogeInfo(DialogeInfo info)
